@@ -1,0 +1,78 @@
+:root {
+    --primary-light: #ddd;
+    --primary-dark: #222831;
+    --secondary-dark: #393e46;
+    --secondary-dark-hover: #4a4f57;
+    --secondary-dark-active: #5b5f68;
+    --header: #111720;
+    --primary-yellow: #fac650;
+  }
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Rubik', sans-serif;
+    background-color: rgb(44, 51, 51);
+    color: whitesmoke;
+    user-select: none;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    max-width: 320px;
+    margin: 30px auto;
+}
+
+img {
+    width: 150px;
+    margin: 0 auto;
+}
+
+button {
+    margin: 5px 0;
+}
+/*
+
+
+.buttons-p1,
+.buttons-p2 {
+    padding-left: 70px;
+    font-weight: 1900;
+}
+
+#p1, #p2 {
+    color: aliceblue;
+    font-weight: bolder;
+}
+*/
+
+  .btn {
+    border-radius: 10px;
+    background-color: var(--secondary-dark);
+    color: white;
+  }
+  
+  .btn-square {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .btn:hover {
+    background-color: var(--secondary-dark-hover);
+  }
+  
+  .btn:active {
+    background-color: var(--secondary-dark-active);
+  }
+
+.name-p {
+}
