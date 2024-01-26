@@ -1,4 +1,4 @@
-import { setPlayer1Name } from './aux/shared.js';
+import { setPlayer1Name, setPlayer2Name } from './aux/shared.js';
 
 const ReturnRename = document.getElementById('return');
 let GetPlayer1 = document.getElementById('player1');
@@ -11,8 +11,24 @@ ReturnRename.addEventListener("click", () => {
 
 UpdateNames.addEventListener("click", () => {
     const newPlayer1Name = GetPlayer1.value;
-    console.log(newPlayer1Name);
-    setPlayer1Name(newPlayer1Name);
+    const newPlayer2Name = GetPlayer2.value;
+
+    //if name is empty, dont update the fields
+    if(!newPlayer1Name) {
+      setPlayer1Name("Player 1");
+    }
+    else {
+      setPlayer1Name(newPlayer1Name);
+    }
+
+    //if name is empty, dont update the fields
+    if(!newPlayer2Name) {
+      setPlayer2Name("Player 2");
+    }
+    else {
+      setPlayer2Name(newPlayer2Name);
+    }
+
     // Optionally redirect to another page
     alert("Player Names have been updated!");
     window.history.back();

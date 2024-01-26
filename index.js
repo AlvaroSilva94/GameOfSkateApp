@@ -1,4 +1,4 @@
-import { getPlayer1Name, resetNames } from './aux/shared.js';
+import { getPlayer1Name, getPlayer2Name, resetNames } from './aux/shared.js';
 
 const letterButtonsP1 = document.querySelectorAll('.btn-square1');
 const letterButtonsP2 = document.querySelectorAll('.btn-square2');
@@ -8,8 +8,16 @@ const RenamePlayers = document.getElementById('rename-players');
 const ViewGameHistory = document.getElementById('view-history');
 const ResetNames = document.getElementById('reset-names-def');
 
+let pressedButtonArr1= [];
+let pressedButtonArr2 = [];
 let letterP1 = "";
 let letterP2 = "";
+
+//To store in the results table
+let winnerName = ""; //name of match-winner
+let loserName = "";
+let players = [winnerName, loserName]; //ex: jack vs ze
+let result = [pressedButtonArr1,pressedButtonArr2]; //ex: sk vs skate
 
 // Function to check if all buttons are pressed for Player 2
 function isPlayer2Winner() {
@@ -41,8 +49,10 @@ function ButtonsPressedP1() {
       // Toggle the pressed state
       if (button.classList.contains('pressed')) {
         button.classList.remove('pressed');
+        pressedButtonArr1.pop();
       } else {
         button.classList.add('pressed');
+        pressedButtonArr1.push(letterP1);
       }
 
       // Check if Player 1 has won when any button for Player 1 is clicked
@@ -52,9 +62,30 @@ function ButtonsPressedP1() {
       if (letterP1 === 'E') {
         CheckLostP2();
       }
+
+      // MaintainPressOrder(pressedButtonArr);
     });
   });
 }
+
+// function MaintainPressOrder(pressedButtons) {
+//   const sequence = ['S', 'K', 'A', 'T', 'E'];
+
+//   letterButtonsP1.forEach(button => {
+//     const letter = button.getAttribute('data-letter');
+//     const indexInSequence = sequence.indexOf(letter);
+
+//     if (pressedButtons.length === 0) {
+//       // Enable only the first button 'S' when no buttons are pressed
+//       button.disabled = letter !== 'S';
+//     } else {
+//       // Enable only 'K' after 'S' is pressed
+//       button.disabled = indexInSequence !== pressedButtons.length || pressedButtons[0] !== 'S';
+//     }
+//   });
+// }
+
+
 
 function ButtonsPressedP2()
 {
@@ -66,8 +97,10 @@ letterButtonsP2.forEach(button => {
     // Toggle the pressed state
     if (button.classList.contains('pressed')) {
       button.classList.remove('pressed');
+      pressedButtonArr1.pop();
     } else {
       button.classList.add('pressed');
+      pressedButtonArr1.push(letterP2);
     }
 
     //Check if player 2 lost
@@ -85,7 +118,12 @@ function CheckLostP1()
 {
     // Check if Player 1 has won when any button for Player 1 is clicked
     if (isPlayer1Winner()) {
-      alert('Player 2 lost the game!');
+
+      //Add winner name and loser name to table
+      winnerName = document.getElementById('name-p1').textContent;
+      loserName = document.getElementById('name-p2').textContent;
+
+      alert(`${loserName} lost the game!`);
       Reset();
     }
 }
@@ -94,7 +132,13 @@ function CheckLostP2()
 {
     // Check if Player 2 has won when any button for Player 2 is clicked
     if (isPlayer2Winner()) {
-      alert('Player 1 lost the game!');
+
+      //Add winner name and loser name to table
+      winnerName = document.getElementById('name-p2').textContent;
+      loserName = document.getElementById('name-p1').textContent;
+
+      alert(`${loserName} lost the game!`);
+
       Reset();
     }
 }
@@ -126,21 +170,26 @@ RenamePlayers.addEventListener("click", () => {
   window.location.href = "renamePage.html";
 });
 
-function updatePlayer1Name(){
+function updatePlayerNames(){
   document.getElementById('name-p1').textContent = getPlayer1Name();
+  document.getElementById('name-p2').textContent = getPlayer2Name();
 }
 
-window.addEventListener('load', updatePlayer1Name);
+window.addEventListener('load', updatePlayerNames);
 
 
 ResetNames.addEventListener("click", () => {
   document.getElementById('name-p1').textContent = "Player 1";
-  resetNames("Player 1");
+  document.getElementById('name-p2').textContent = "Player 2";
+  resetNames();
+  alert("Names have been reset to default!");
 });
 
+ViewGameHistory.addEventListener("click", () => {
+  window.location.href = "aux/viewHistory.html";
+});
 /*
 //TODO: 
-
 
 
 ViewGameHistory.addEventListener("click", () => {
@@ -173,3 +222,4 @@ function updateText() {
 }
 
 */
+

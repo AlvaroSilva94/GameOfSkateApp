@@ -38,7 +38,16 @@ img {
 }
 
 button {
-    margin: 5px 0;
+    margin: 3px 0;
+    background-color: rgb(10, 104, 104);
+    color: aliceblue;
+    border-radius: 10px;
+    border:none;
+    height: 30px;
+}
+
+button:hover {
+  background-color: rgb(17, 179, 179);
 }
 
   .btn {
@@ -51,6 +60,7 @@ button {
   .btn-square2 {
     width: 50px;
     height: 50px;
+    border: none;
   }
   
   .btn:hover {
@@ -60,4 +70,21 @@ button {
   /* Add this to your existing CSS file */
 .btn.pressed {
   background-color: burlywood;
+}
+
+.buttons-p1,
+.buttons-p2 {
+  margin-left: 27px;
+}
+
+.input-text {
+  border-radius: 10px;
+  height: 30px;
+  margin: 2px;
+  border: none;
+}
+
+.cont {
+  display: flex;
+  flex-direction: row;
 }
