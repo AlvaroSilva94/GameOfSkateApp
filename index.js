@@ -1,4 +1,14 @@
 import { getPlayer1Name, getPlayer2Name, resetNames } from './aux/shared.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
+import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js"
+
+const appSettings = {
+    databaseURL: "https://gameofskate-94fcf-default-rtdb.europe-west1.firebasedatabase.app/"
+}
+
+const app = initializeApp(appSettings);
+const database = getDatabase(app);
+const SkateHistoryListInDB = ref(database, "SkateGameHistory");
 
 const letterButtonsP1 = document.querySelectorAll('.btn-square1');
 const letterButtonsP2 = document.querySelectorAll('.btn-square2');
@@ -16,8 +26,6 @@ let letterP2 = "";
 //To store in the results table
 let winnerName = ""; //name of match-winner
 let loserName = "";
-let players = [winnerName, loserName]; //ex: jack vs ze
-let result = [pressedButtonArr1,pressedButtonArr2]; //ex: sk vs skate
 
 // Function to check if all buttons are pressed for Player 2
 function isPlayer2Winner() {
@@ -97,10 +105,10 @@ letterButtonsP2.forEach(button => {
     // Toggle the pressed state
     if (button.classList.contains('pressed')) {
       button.classList.remove('pressed');
-      pressedButtonArr1.pop();
+      pressedButtonArr2.pop();
     } else {
       button.classList.add('pressed');
-      pressedButtonArr1.push(letterP2);
+      pressedButtonArr2.push(letterP2);
     }
 
     //Check if player 2 lost
@@ -124,6 +132,7 @@ function CheckLostP1()
       loserName = document.getElementById('name-p2').textContent;
 
       alert(`${loserName} lost the game!`);
+      storeResult(winnerName, loserName);
       Reset();
     }
 }
@@ -138,7 +147,7 @@ function CheckLostP2()
       loserName = document.getElementById('name-p1').textContent;
 
       alert(`${loserName} lost the game!`);
-
+      storeResult(winnerName, loserName);
       Reset();
     }
 }
@@ -188,7 +197,18 @@ ResetNames.addEventListener("click", () => {
 ViewGameHistory.addEventListener("click", () => {
   window.location.href = "aux/viewHistory.html";
 });
+
+
+function storeResult(win,lost){
+  let arr1 = pressedButtonArr1.toString();
+  let arr2 = pressedButtonArr2.toString();
+  let info = `${win} won against ${lost}!\n Result: ${arr1} vs ${arr2}`;
+  push(SkateHistoryListInDB, info);
+  console.log(pressedButtonArr1);
+  console.log(pressedButtonArr2);
+}
 /*
+
 //TODO: 
 
 
