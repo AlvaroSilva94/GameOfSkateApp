@@ -184,7 +184,7 @@ ViewGameHistory.addEventListener("click", () => {
 function storeResult(win, lost) {
   let arr1 = pressedButtonArr1.toString();
   let arr2 = pressedButtonArr2.toString();
-  let info = `${win} won against ${lost}! Result: ${arr2} vs ${arr1}`;
+  let info = `${win} won against ${lost} with the result: ${arr1} vs ${arr2}`;
   push(SkateHistoryListInDB, info);
 
   // Call the function to update the game history list in the UI
