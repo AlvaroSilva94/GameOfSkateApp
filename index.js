@@ -181,14 +181,14 @@ ViewGameHistory.addEventListener("click", () => {
   window.location.href = "aux/viewHistory.html";
 });
 
-
-function storeResult(win,lost){
+function storeResult(win, lost) {
   let arr1 = pressedButtonArr1.toString();
   let arr2 = pressedButtonArr2.toString();
-  let info = `${win} won against ${lost}!\n Result: ${arr1} vs ${arr2}`;
+  let info = `${win} won against ${lost}! Result: ${arr2} vs ${arr1}`;
   push(SkateHistoryListInDB, info);
-  console.log(pressedButtonArr1);
-  console.log(pressedButtonArr2);
+
+  // Call the function to update the game history list in the UI
+  updateGameHistoryList();
 }
 
 function fetchGameHistory() {
@@ -212,14 +212,23 @@ function appendItemToSkateHistory(key, itemValue) {
   HistoryListEl.appendChild(newListItem);
 }
 
-
-function updateGameHistoryList(gameHistoryData) {
+// Function to fetch and update game history list in the UI
+function updateGameHistoryList() {
   // Clear the existing list items (optional)
   HistoryListEl.innerHTML = "";
 
-  for (const item of gameHistoryData) {
-    appendItemToSkateHistory(item); // Use item directly
-  }
+  onValue(SkateHistoryListInDB, (snapshot) => {
+    if (snapshot.exists()) {
+      // Get the game history data
+      const gameHistoryData = Object.values(snapshot.val()); // Get values only
+
+      for (const item of gameHistoryData) {
+        appendItemToSkateHistory(item); // Use item directly
+      }
+    } else {
+      HistoryListEl.innerHTML = "<muft>No game score...yet</muft>";
+    }
+  });
 }
 
 //TODO: 

@@ -12,54 +12,40 @@ const SkateHistoryListInDB = ref(database, "SkateGameHistory");
 const resultsListEl = document.getElementById("results-list")
 const deleteAllButtonEl = document.getElementById("delete-all-button")
 
+const viewHistoryButton = document.getElementById("view-history");
+
+viewHistoryButton.addEventListener("click", function () {
+  getAndDisplayGameHistory(); // Call the new function to retrieve and display history
+});
+
+function getAndDisplayGameHistory() {
+  const historyListEl = document.getElementById("game-history-list");
+
+
+  onValue(SkateHistoryListInDB, (snapshot) => {
+    if (snapshot.exists()) {
+      // Clear the existing list items
+      historyListEl.innerHTML = "";
+
+      const gameHistoryData = Object.values(snapshot.val()); // Get values only
+
+      for (const item of gameHistoryData) {
+        // Modify the retrieved item to display "Result" on a new line
+        const formattedItem = item.replace("Result", "\nResult");
+        
+        const newListItem = document.createElement("li");
+        newListItem.textContent = formattedItem;
+        historyListEl.appendChild(newListItem);
+      }
+    } else {
+      historyListEl.innerHTML = "<p>No game history entries yet.</p>";
+    }
+  });
+}
+
 deleteAllButtonEl.addEventListener("click", function() {
     if (window.confirm("Are you sure you want to delete all items?")) {
         // If the user confirms, delete all items from the database
         remove(SkateHistoryListInDB);
     }
 })
-
-addButtonEl.addEventListener("click", function() {
-    let inputValue = inputFieldEl.value
-    
-    push(shoppingListInDB, inputValue)
-    
-    clearInputFieldEl()
-})
-
-onValue(shoppingListInDB, function(snapshot) {
-    if (snapshot.exists()) {
-        let itemsArray = Object.entries(snapshot.val())
-    
-        clearShoppingListEl()
-        
-        for (let i = 0; i < itemsArray.length; i++) {
-            let currentItem = itemsArray[i]
-            let currentItemID = currentItem[0]
-            let currentItemValue = currentItem[1]
-            
-            appendItemToShoppingListEl(currentItem)
-        }    
-    } else {
-        resultsListEl.innerHTML =`<muft>No items here... yet</muft>`
-    }
-})
-
-function clearShoppingListEl() {
-    resultsListEl.innerHTML = ""
-}
-
-function clearInputFieldEl() {
-    inputFieldEl.value = ""
-}
-
-function appendItemToShoppingListEl(item) {
-    let itemID = item[0]
-    let itemValue = item[1]
-    
-    let newEl = document.createElement("li")
-    
-    newEl.textContent = itemValue
-    
-    resultsListEl.append(newEl)
-}
