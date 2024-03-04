@@ -6,17 +6,23 @@
   <link rel="stylesheet" href="../index.css">
 </head>
 <body>
+
+  <script>
+    window.addEventListener('load', () => {
+      // Call fetchGameHistory after the page loads
+      fetchGameHistory();
+    });
+    </script>
+
   <div class="container">
     <img src="../assets/sk8.png">
     <button id="return">Return!</button>
   <script src="../renamePage.js" type="module"></script>
+  <script src="../index.js" type="module"></script>
   <script src="./shared.js" type="module"></script>
   <script src="./viewHistory.js" type="module"></script>
   <button id="delete-all-button">Delete all items</button>
-  <div class="cont">
-    <ul id="results-list">
-    </ul>
-  </div>
+  <ul id="game-history-list"></ul>
   
 </body>
 </html>

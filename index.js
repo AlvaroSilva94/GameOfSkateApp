@@ -18,6 +18,8 @@ const RenamePlayers = document.getElementById('rename-players');
 const ViewGameHistory = document.getElementById('view-history');
 const ResetNames = document.getElementById('reset-names-def');
 
+const HistoryListEl = document.getElementById('results-list');
+
 let pressedButtonArr1= [];
 let pressedButtonArr2 = [];
 let letterP1 = "";
@@ -75,25 +77,6 @@ function ButtonsPressedP1() {
     });
   });
 }
-
-// function MaintainPressOrder(pressedButtons) {
-//   const sequence = ['S', 'K', 'A', 'T', 'E'];
-
-//   letterButtonsP1.forEach(button => {
-//     const letter = button.getAttribute('data-letter');
-//     const indexInSequence = sequence.indexOf(letter);
-
-//     if (pressedButtons.length === 0) {
-//       // Enable only the first button 'S' when no buttons are pressed
-//       button.disabled = letter !== 'S';
-//     } else {
-//       // Enable only 'K' after 'S' is pressed
-//       button.disabled = indexInSequence !== pressedButtons.length || pressedButtons[0] !== 'S';
-//     }
-//   });
-// }
-
-
 
 function ButtonsPressedP2()
 {
@@ -207,15 +190,42 @@ function storeResult(win,lost){
   console.log(pressedButtonArr1);
   console.log(pressedButtonArr2);
 }
-/*
+
+function fetchGameHistory() {
+  onValue(SkateHistoryListInDB, (snapshot) => {
+    if (snapshot.exists()) {
+      // Get the game history data
+      const gameHistoryData = Object.values(snapshot.val()); // Get values only
+
+      // Call a separate function to handle UI update
+      updateGameHistoryList(gameHistoryData);
+    } else {
+      HistoryListEl.innerHTML = "<muft>No game score...yet</muft>";
+    }
+  });
+}
+
+function appendItemToSkateHistory(key, itemValue) {
+  // Use the key or itemValue for additional formatting if needed
+  const newListItem = document.createElement("li");
+  newListItem.textContent = itemValue;
+  HistoryListEl.appendChild(newListItem);
+}
+
+
+function updateGameHistoryList(gameHistoryData) {
+  // Clear the existing list items (optional)
+  HistoryListEl.innerHTML = "";
+
+  for (const item of gameHistoryData) {
+    appendItemToSkateHistory(item); // Use item directly
+  }
+}
 
 //TODO: 
-
-
 ViewGameHistory.addEventListener("click", () => {
-  //Send to another page with a return button and a table
-  //with game No, winner name, who played who
-  //store and get this from firebase db
+  // fetchGameHistory();
+  window.location.href = "aux/viewHistory.html";
 });
 
 //Add logic to allow only K when S is pressed and so on
